@@ -1,0 +1,46 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.3.5'
+	id 'io.spring.dependency-management' version '1.1.6'
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '17'
+targetCompatibility = '17'
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(17)
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+ext {
+	set('springCloudVersion', "2023.0.3")
+}
+
+dependencies {
+
+	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-webflux', version: '3.3.5'
+	implementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.14'
+	testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '3.3.5'
+	testImplementation group: 'org.junit.platform', name: 'junit-platform-launcher', version: '1.11.3'
+	testImplementation group: 'com.squareup.okhttp3', name: 'mockwebserver', version: '5.0.0-alpha.14'
+	testImplementation group: 'io.helidon.webclient', name: 'helidon-webclient', version: '4.1.4'
+	implementation group: 'com.google.code.gson', name: 'gson', version: '2.11.0'
+	implementation 'io.github.openfeign:feign-gson:11.0'
+}
+
+dependencyManagement {
+	imports {
+		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+	}
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
