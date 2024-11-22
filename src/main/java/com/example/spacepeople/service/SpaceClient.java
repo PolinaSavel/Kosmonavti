@@ -1,8 +1,12 @@
 package com.example.spacepeople.service;
 
-import feign.RequestLine;
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 
+@FeignClient(name = "spaceClient", url = "http://api.open-notify.org")
 public interface SpaceClient {
-    @RequestLine("GET /astros.json")
-    String getAstros();
+
+    @GetMapping("/astros.json")
+    ResponseEntity<String> getAstros();
 }

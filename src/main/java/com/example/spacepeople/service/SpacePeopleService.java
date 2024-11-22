@@ -26,6 +26,9 @@ public class SpacePeopleService {
     private RestTemplate restTemplate;
 
     @Autowired
+    private SpaceClient spaceClient;
+
+    @Autowired
     private WebClient.Builder webClientBuilder;
 
     public List<RequestResult> getPeopleInSpace() {
@@ -85,13 +88,13 @@ public class SpacePeopleService {
     }
 
     private CompletableFuture<RequestResult> executeWithOpenFeign() {              //OpenFeign
-        SpaceClient client = Feign.builder()
-                .decoder(new GsonDecoder())
-                .target(SpaceClient.class, url);
-
         return CompletableFuture.supplyAsync(() -> {
             long startTime = System.currentTimeMillis();
-            client.getAstros();                                                  // Вызов метода Feign клиента
+            try {
+                spaceClient.getAstros();               // Используйте инжектированный клиент
+            } catch (Exception e) {
+           //     throw new RuntimeException("Error during OpenFeign call", e);
+            }
             long executionTime = System.currentTimeMillis() - startTime;
             return new RequestResult("OpenFeign", executionTime);
         });

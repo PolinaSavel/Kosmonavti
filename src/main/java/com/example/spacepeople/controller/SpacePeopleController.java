@@ -15,7 +15,7 @@ public class SpacePeopleController {
     private SpacePeopleService spacePeopleService;
 
     @GetMapping("/people-in-space")
-    public void fetchPeople() {
+    public String fetchPeople() {
         List<RequestResult> results = spacePeopleService.getPeopleInSpace();
 
         System.out.println("Результаты запросов:");
@@ -26,5 +26,7 @@ public class SpacePeopleController {
 
         System.out.println("Самый долгий запрос: " + slowest.getClientName() + " (" + slowest.getExecutionTime() + " ms)");
         System.out.println("Самый быстрый запрос: " + fastest.getClientName() + " (" + fastest.getExecutionTime() + " ms)");
+
+        return "Самый быстрый запрос: " + fastest.getClientName() + " (" + fastest.getExecutionTime() + " ms)";
     }
 }
